@@ -1,10 +1,11 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { BannerImageAPIResponse } from '@/types/api/bannerImage.type'
 import { APIFetcher } from '@/utils/apiFetcher'
 import { IMGFetcher } from '@/utils/imgFetcher'
 import Image from 'next/image'
 
 export default async function Sliders() {
-    const imgURLs = await APIFetcher('/api/sliders?populate=*')
+    const imgURLs:BannerImageAPIResponse = await APIFetcher('/api/sliders?populate=*')
     return (
         <>
             <Carousel>
