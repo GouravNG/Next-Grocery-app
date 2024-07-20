@@ -15,7 +15,7 @@ async function FeaturedCategories() {
                         return (
                             <div
                                 key={i.id}
-                                className='flex flex-col items-center bg-green-300 p-5 border rounded-2xl w-36 h-36 justify-center hover:bg-green-400 hover:scale-110 transition-all hover:font-bold'
+                                className='flex flex-col items-center bg-green-100 p-5 border rounded-2xl w-36 h-36 justify-center hover:bg-green-300 hover:scale-110 transition-all hover:font-bold'
                             >
                                 <Image
                                     src={imgURL}
