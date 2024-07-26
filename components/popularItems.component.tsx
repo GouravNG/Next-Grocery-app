@@ -2,7 +2,7 @@ import { APIFetcher } from '@/utils/apiFetcher'
 import { IMGFetcher } from '@/utils/imgFetcher'
 import Image from 'next/image'
 import React from 'react'
-import { Button } from './ui/button'
+import PDPHover from './PDPhover.component'
 
 async function PopularItems() {
     const popularItemsData: PopularItemsResponce = await APIFetcher('/api/popular-items?populate=*')
@@ -32,9 +32,7 @@ async function PopularItems() {
                                         Our price: {i.attributes.price} ₹
                                     </p>
                                 </div>
-                                <Button className='bg-green-500 text-white hover:bg-green-600 mt-auto'>
-                                    Add to cart
-                                </Button>
+                                <PDPHover productData={popularItemsData} />
                             </div>
                         </div>
                     )
