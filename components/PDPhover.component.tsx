@@ -1,3 +1,4 @@
+'use client'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -13,9 +14,24 @@ import {
 import { Button } from './ui/button'
 import Image from 'next/image'
 import { IMGFetcher } from '@/utils/imgFetcher'
-import { CircleX, MinusIcon, PlusIcon, ShoppingBasket } from 'lucide-react'
+import { CircleX, ShoppingBasket } from 'lucide-react'
+import QuantityControl from './QuantityControl.component'
+import { useEffect, useState } from 'react'
 
-const PDPHover: React.FC<PDPHoverProps> = ({ productData }) => {
+const PDPHover: React.FC<> = ({ productData }) => {
+    const initialPrice = productData.attributes.price || 0
+    const initialQuantity = 1
+
+    const [price, setPrice] = useState<number>(initialPrice)
+    const [quantity, setQuantity] = useState<number>(initialQuantity)
+
+    useEffect(() => {
+        return () => {
+            setPrice(initialPrice)
+            setQuantity(initialQuantity)
+        }
+    }, [initialPrice, initialQuantity])
+
     return (
         <div>
             <AlertDialog>
@@ -28,7 +44,7 @@ const PDPHover: React.FC<PDPHoverProps> = ({ productData }) => {
                         <div className='flex flex-col'>
                             <div className='flex gap-10 '>
                                 <Image
-                                    src={IMGFetcher(productData.data[0].attributes.image.data.attributes.url)}
+                                    src={IMGFetcher(productData.attributes.image.data.attributes.url)}
                                     alt='Product image'
                                     height={300}
                                     width={300}
@@ -37,52 +53,40 @@ const PDPHover: React.FC<PDPHoverProps> = ({ productData }) => {
                                 <div className='flex flex-col gap-4 p-2 '>
                                     <div className='flex items-center justify-between'>
                                         <h1 className='font-extrabold text-5xl '>
-                                            {productData.data[0].attributes.groceryName}
+                                            {productData.attributes.groceryName}
                                         </h1>
                                         <AlertDialogCancel className='flex border-none '>
                                             <CircleX />
                                         </AlertDialogCancel>
                                     </div>
                                     <p className='font-extrabold text-slate-800'>
-                                        {productData.data[0].attributes.description}
+                                        {productData.attributes.description}
                                     </p>
                                     <div className='flex gap-3 items-baseline'>
                                         <h2 className='font-extrabold text-2xl text-slate-600'>
                                             $
                                             <s className='line-through text-2xl font-bold'>
-                                                {productData.data[0].attributes.MRP}
+                                                {productData.attributes.MRP}
                                             </s>
                                         </h2>
-                                        <h2 className='font-extrabold text-3xl'>
-                                            ${productData.data[0].attributes.price}
-                                        </h2>
+                                        <h2 className='font-extrabold text-3xl'>${productData.attributes.price}</h2>
                                     </div>
-                                    <p className='font-semibold'>
-                                        Quantity: {productData.data[0].attributes.quantity} Kg
-                                    </p>
-                                    {/* Add the increse decrese here */}
+                                    <p className='font-semibold'>Quantity: {productData.attributes.quantity} Kg</p>
                                     <div className='flex gap-3 items-center'>
-                                        <div className='flex gap-3 border border-slate-700 p-2 items-center rounded-xl'>
-                                            <button>
-                                                <span>
-                                                    <PlusIcon />
-                                                </span>
-                                            </button>
-                                            <button>1</button>
-                                            <button>
-                                                <span>
-                                                    <MinusIcon />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <h1 className='font-extrabold text-3xl'> = $ {100}</h1>
+                                        <QuantityControl
+                                            setPrice={setPrice}
+                                            setQuantity={setQuantity}
+                                            quantity={quantity}
+                                            unitPrice={productData.attributes.price}
+                                        />
+                                        <h1 className='font-extrabold text-3xl'> = $ {price}</h1>
                                     </div>
                                     <Button className='bg-green-500 hover:bg-green-600'>
                                         <ShoppingBasket /> Add to cart
                                     </Button>
                                     <p>
                                         <span className='font-bold'>Category</span>:
-                                        {productData.data[0].attributes.categories.data[0].attributes.Category}
+                                        {productData.attributes.categories.data[0].attributes.Category}
                                     </p>
                                 </div>
                             </div>

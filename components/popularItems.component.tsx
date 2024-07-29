@@ -32,7 +32,7 @@ async function PopularItems() {
                                         Our price: {i.attributes.price} ₹
                                     </p>
                                 </div>
-                                <PDPHover productData={popularItemsData} />
+                                <PDPHover productData={i} />
                             </div>
                         </div>
                     )
